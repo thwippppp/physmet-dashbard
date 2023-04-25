@@ -16,11 +16,29 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  mounted() {
+    const url = "http://10.10.120.32:1337/api/pieChart/customerTypeviaStatus";
+
+    axios({
+      method: "GET",
+      url: url,
+    }).then((response) => {
+      console.log("lloyd", response.data);
+      this.series = [
+        response.data.External.Ongoing,
+        response.data.External.Completed,
+        response.data.External.Claimed,
+      ];
+    });
+  },
+
   name: "MyChart5",
   data() {
     return {
-      series: [44, 55, 41],
+      series: [],
       chartOptions: {
         chart: {
           type: "donut",

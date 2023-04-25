@@ -11,20 +11,34 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "MyChart7",
+  mounted() {
+    const url = "http://10.10.120.32:1337/api/barChart/TypeOfTest";
+    axios.get(url).then((response) => {
+      const data = response.data.typeOfTestResult;
+      // const categories = data.map((item) => item.data);
+      const testData = data.map((item) => item.totaldata);
+      this.series[0].data = testData;
+      // this.chartOptions.xaxis.categories = categories;
+    });
+  },
+
+  name: "MyChart8",
   data() {
     return {
       series: [
         {
           name: "Total Number",
-          data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31],
+          data: [],
         },
       ],
       chartOptions: {
         chart: {
           height: 350,
           type: "bar",
+          width: "100%",
         },
         plotOptions: {
           bar: {
@@ -49,31 +63,21 @@ export default {
             rotate: -25,
           },
           categories: [
-            "Metallography",
+            "Cast Iron",
+            "Plain Carbon Steel",
+            "Metallographic Grinding",
+            "Hot Mounting",
+            "Cutting",
             "Thickness of Coating",
-            "Macroexamination",
-            "Photomicrography",
-            "Scanning Electron Microscopy",
-            "Energy Dispersive Spectroscopy",
-            "Metal Classification/Certification",
             "Fractographic Evaluation",
-            "Failure Investigation",
-            "Sample Preparation",
+            "Aluminum/Aluminum Alloy",
+            "Conductive Sample",
+            "Metal Classification/Certification",
+            "Macroexamination",
+            "Energy Dispersive Spectroscopy",
+            "Low Alloy Steel/High Alloy Steel",
+            "Cold Mounting",
           ],
-        },
-
-        fill: {
-          type: "gradient",
-          gradient: {
-            shade: "dark",
-            type: "horizontal",
-            shadeIntensity: 0.25,
-            gradientToColors: undefined,
-            inverseColors: true,
-            opacityFrom: 0.85,
-            opacityTo: 0.85,
-            stops: [50, 0, 100],
-          },
         },
       },
     };

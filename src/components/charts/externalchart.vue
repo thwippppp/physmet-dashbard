@@ -3,10 +3,11 @@
     <div class="no-padding flex-center">
       <h6 class="no-margin">External</h6>
     </div>
+    <br />
     <div class="flex flex-center">
       <apexchart
-        type="polarArea"
-        width="480"
+        type="pie"
+        width="380"
         :options="chartOptions"
         :series="series"
       >
@@ -16,19 +17,38 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  mounted() {
+    const url = "http://10.10.120.32:1337/api/pieChart/customerTypeviaStatus";
+
+    axios({
+      method: "GET",
+      url: url,
+    }).then((response) => {
+      console.log("lloyd", response.data);
+      this.series = [
+        response.data.External.Ongoing,
+        response.data.External.Completed,
+        response.data.External.Claimed,
+      ];
+    });
+  },
+
   name: "MyChart2",
   data() {
     return {
-      series: [42, 47, 52],
+      series: [],
       chartOptions: {
         chart: {
           width: 380,
-          type: "polarArea",
+          type: "pie",
           align: "center",
           verticalAlign: "middle",
         },
         labels: ["Ongoing", "Completed", "Claimed"],
+        colors: ["#FFD700", "#FF6347", "#00BFFF"],
 
         fill: {
           opacity: 90,
@@ -48,17 +68,7 @@ export default {
           position: "bottom",
           fontSize: "13px",
           offsetX: -35,
-          offsetY: -2,
-        },
-        plotOptions: {
-          polarArea: {
-            rings: {
-              strokeWidth: 0,
-            },
-            spokes: {
-              strokeWidth: 0,
-            },
-          },
+          offsetY: 30,
         },
       },
     };

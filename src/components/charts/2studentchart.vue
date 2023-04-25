@@ -1,13 +1,12 @@
 <template>
   <div class="col">
-    <div class="no-padding flex-center">
+    <div class="no-padding q-mb-lg flex-center">
       <h6 class="no-margin">Student</h6>
     </div>
-    <br />
     <div class="flex flex-center">
       <apexchart
-        type="pie"
-        width="380"
+        type="donut"
+        width="500"
         :options="chartOptions"
         :series="series"
       >
@@ -28,7 +27,6 @@ export default {
       url: url,
     }).then((response) => {
       console.log("lloyd", response.data);
-
       this.series = [
         response.data.Student.Ongoing,
         response.data.Student.Completed,
@@ -37,39 +35,29 @@ export default {
     });
   },
 
-  name: "MyChart3",
+  name: "MyChart6",
   data() {
     return {
       series: [],
       chartOptions: {
         chart: {
-          width: 380,
-          type: "pie",
-          align: "center",
-          verticalAlign: "middle",
+          type: "donut",
         },
         labels: ["Ongoing", "Completed", "Claimed"],
         colors: ["#FFD700", "#FF6347", "#00BFFF"],
-        fill: {
-          opacity: 90,
-        },
-        dataLabels: {
-          enabled: true,
-        },
-        stroke: {
-          width: 1,
-          colors: undefined,
-        },
-        yaxis: {
-          show: false,
-        },
-        legend: {
-          floating: true,
-          position: "bottom",
-          fontSize: "13px",
-          offsetX: -35,
-          offsetY: 30,
-        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200,
+              },
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        ],
       },
     };
   },
